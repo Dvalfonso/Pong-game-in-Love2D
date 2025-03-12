@@ -12,7 +12,7 @@ A simple Pong game made with LÖVE2D. This project demonstrates basic physics, c
 1. Download and install [LÖVE](https://love2d.org/).
 2. Clone this repository:
    ```sh
-   git clone https://github.com/yourusername/pong-love2d.git
+   git clone https://github.com/Dvalfonso/pong-love2d.git
    cd pong-love2d
    ```
 3. Run the game:
