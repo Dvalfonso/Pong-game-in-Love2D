@@ -63,18 +63,31 @@ end
 
 function collition(dt)
     if b.x <= p1.x + 32 and b.y + 8 >= p1.y and b.y + 8 <= p1.y + 64 then
-        local dist = ((b.y + 8) - (p1.y + 32)) / 32
-        b.dirY = dist
+        
+        local paddleCenter = p1.y + 64 / 2 --paddle height / 2
+        local ballCenter = b.y + 8 / 2 --ball height / 2
+        local impact = (ballCenter - paddleCenter) / (64 / 2)
+
+        b.dirY = impact
+        b.dirX = b.dirX * -1
+
     end
 
     if b.x + 8 >= p2.x + 32 and b.y + 8 >= p2.y and b.y + 8 <= p2.y + 64 then
 
+        local paddleCenter = p2.y + 64 / 2 --paddle height / 2
+        local ballCenter = b.y + 8 / 2 --ball height / 2
+        local impact = (ballCenter - paddleCenter) / (64 / 2)
+
+        b.dirY = impact
+
+        b.dirX = b.dirX * -1
     end
 end
 
 function moveBall(dt)
-    b.x = b.x + 80 * dt * b.dirX
-    b.y = b.y + 80 * b.dirY * dt
+    b.x = b.x + 120 * dt * b.dirX
+    b.y = b.y + 120 * b.dirY * dt
 
     if b.y - 8 <= 0 then
         b.dirY = b.dirY  * -1
