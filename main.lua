@@ -7,6 +7,8 @@
 function love.load()
     math.randomseed(os.time())  -- Inicializa números aleatorios
 
+    scoreP1 = 0
+    scoreP2 = 0
 
     paddle = love.graphics.newImage("assets/paddle64x64.png")
     ball = love.graphics.newImage("assets/ball16x16.png")
@@ -59,6 +61,8 @@ function love.draw()
     love.graphics.draw(paddle, p2.x, p2.y)
 
     love.graphics.draw(ball, b.x, b.y, 0, 0.5, 0.5)
+
+    drawScoreBars()
 end
 
 function collition(dt)
@@ -95,7 +99,13 @@ function moveBall(dt)
         b.dirY = b.dirY * -1
     end
 
-    if b.x <= 0 or b.x >= winWidth then
+    if b.x <= 0 then
+        scoreP2 = scoreP2 + 1
+        resetBall()
+    end
+
+    if b.x >= winWidth then
+        scoreP1 = scoreP1 + 1
         resetBall()
     end
 end
@@ -105,4 +115,21 @@ function resetBall()
     b.dirX = (math.random(2) == 1 and 1 or -1)
     b.y = love.math.random(132, 264)
     b.dirY = 1
+end
+
+function drawScoreBars()
+    local barHeight = 5
+    local barWidth = winWidth / 12
+
+    for i = 1, scoreP1 do
+        love.graphics.setColor(0,1,0)
+        love.graphics.rectangle("fill", winWidth / 2 - i* barWidth, 10, barWidth, barHeight)
+        love.graphics.setColor(1,1,1)
+    end
+
+    for i = 1, scoreP2 do
+        love.graphics.setColor(1,0,0)
+        love.graphics.rectangle("fill", winWidth / 2 + (i-1) * barWidth, 10, barWidth, barHeight)
+        love.graphics.setColor(1,1,1)
+    end
 end
