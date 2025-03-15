@@ -30,7 +30,6 @@ A simple Pong game made with LÖVE2D. This project demonstrates basic physics, c
 - The game logic is handled in `love.update(dt)` and `love.draw()` functions.
 
 ## 🚀 Future Improvements
-- Add scoring system
 - Implement AI for single-player mode
 - Improve physics for more realistic bounces
 - Add sound effects
