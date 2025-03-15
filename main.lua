@@ -10,6 +10,10 @@ function love.load()
     scoreP1 = 0
     scoreP2 = 0
 
+    maxScore = 6
+
+    gameOver = false
+
     paddle = love.graphics.newImage("assets/paddle64x64.png")
     ball = love.graphics.newImage("assets/ball16x16.png")
 
@@ -50,11 +54,17 @@ function love.update(dt)
         p2.y = p2.y - 200 * dt
     end
 
-    moveBall(dt)
-    collition(dt)
+    if not gameOver then
+        moveBall(dt)
+        collition(dt)
+    end
 end
 
 function love.draw()
+    if gameOver then
+        love.graphics.printf(winner .. " wins!", 0, winHeight / 2, winWidth, "wins")
+    end
+
     love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
 
     love.graphics.draw(paddle, p1.x, p1.y)
@@ -90,8 +100,8 @@ function collition(dt)
 end
 
 function moveBall(dt)
-    b.x = b.x + 120 * dt * b.dirX
-    b.y = b.y + 120 * b.dirY * dt
+    b.x = b.x + 200 * dt * b.dirX
+    b.y = b.y + 200 * b.dirY * dt
 
     if b.y - 8 <= 0 then
         b.dirY = b.dirY  * -1
@@ -111,6 +121,8 @@ function moveBall(dt)
 end
 
 function resetBall()
+    checkGameOver()
+
     b.x = winHeight / 2
     b.dirX = (math.random(2) == 1 and 1 or -1)
     b.y = love.math.random(132, 264)
@@ -131,5 +143,15 @@ function drawScoreBars()
         love.graphics.setColor(1,0,0)
         love.graphics.rectangle("fill", winWidth / 2 + (i-1) * barWidth, 10, barWidth, barHeight)
         love.graphics.setColor(1,1,1)
+    end
+end
+
+function checkGameOver()
+    if scoreP1 >= maxScore then
+        gameOver = true
+        winner = "Player 1"
+    elseif scoreP2 >= maxScore then
+        gameOver = true
+        winner = "Player 2"
     end
 end
